@@ -14,8 +14,7 @@
 - [ ] Display a list of all bookings
 - [ ] Order bookings by arrival time
 - [ ] Allow a bookings to be cancelled/activated - change the style of the bookings to make this apparent
-- [ ] Write a simple test to show that the list of bookings is rendered if data is returned
-- [ ] Time permitting: talk about how this could be improved
+- [ ] Talk about how this could be improved
 
 #### Notes
 
