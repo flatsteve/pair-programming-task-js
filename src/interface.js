@@ -11,28 +11,29 @@ function toggleBooking() {
   const isCancelled = this.dataset.cancelled === "true" ? true : false;
 
   axios
-    .patch(`${API_URL}/${id}`, {
-      cancelled: !isCancelled
-    })
+    .patch(`${API_URL}/${id}`, { cancelled: !isCancelled })
     .then(({ data }) => {
-      const bookingButtonEl = this.querySelector("button");
+      this.dataset.cancelled = data.cancelled;
+
+      data.cancelled
+        ? this.classList.add("booking--cancelled")
+        : this.classList.remove("booking--cancelled");
 
       this.querySelector("button").innerHTML = getActionButtonText(
         data.cancelled
       );
-
-      this.dataset.cancelled = data.cancelled;
     });
 }
 
 function createBookingTemplate(booking) {
   return `
-    <div class="booking" data-id="${booking._id}" data-cancelled="${
-    booking.cancelled
-  }">
-      <p>${booking.name}</p>
-      <p>${booking.date}</p>
+    <div class="booking ${
+      booking.cancelled ? "booking--cancelled" : ""
+    }" data-id="${booking._id}" data-cancelled="${booking.cancelled}"
+    >
       <img src="${booking.image_url}" alt="Profile"/>
+      <p>${booking.name}</p>
+      <p>${new Date(booking.date).toLocaleString()}</p>
       <button>${getActionButtonText(booking.cancelled)}</button>
     </div>
   `;

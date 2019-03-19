@@ -26,3 +26,21 @@ body {
 .empty-alert {
   text-align: center;
 }
+
+.booking {
+  align-items: center;
+  border: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem;
+}
+
+.booking img {
+  border-radius: 50%;
+  width: 5rem;
+}
+
+.booking--cancelled {
+  border-color: #ff4d62;
+}
