@@ -1,4 +1,24 @@
-import { toggleBooking } from "./index";
+import axios from "axios";
+
+import { API_URL } from "./utils";
+
+function toggleBooking() {
+  const id = this.dataset.id;
+  const isCancelled = this.dataset.cancelled === "true" ? true : false;
+
+  axios
+    .patch(`${API_URL}/${id}`, {
+      cancelled: !isCancelled
+    })
+    .then(({ data }) => {
+      const bookingButtonEl = this.querySelector("button");
+
+      this.querySelector("button").innerHTML = data.cancelled
+        ? "Accept"
+        : "Cancel";
+      this.dataset.cancelled = data.cancelled;
+    });
+}
 
 function createBookingTemplate(booking) {
   return `
@@ -17,8 +37,6 @@ export function renderBookings(bookings) {
   const $bookingsContainer = document.getElementById("bookings");
   const $emptyAlert = document.querySelector(".empty-alert");
 
-  $bookingsContainer.innerHTML = "";
-
   const sortedBookings = bookings.sort((a, b) => {
     return new Date(a.date) - new Date(b.date);
   });
@@ -30,9 +48,7 @@ export function renderBookings(bookings) {
     );
   });
 
-  if ($emptyAlert) {
-    $emptyAlert.remove();
-  }
+  $emptyAlert.remove();
 }
 
 export function attachListenersToBookings() {
