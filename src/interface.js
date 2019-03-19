@@ -2,6 +2,10 @@ import axios from "axios";
 
 import { API_URL } from "./utils";
 
+function getActionButtonText(cancelled) {
+  return cancelled ? "Accept" : "Cancel";
+}
+
 function toggleBooking() {
   const id = this.dataset.id;
   const isCancelled = this.dataset.cancelled === "true" ? true : false;
@@ -13,9 +17,10 @@ function toggleBooking() {
     .then(({ data }) => {
       const bookingButtonEl = this.querySelector("button");
 
-      this.querySelector("button").innerHTML = data.cancelled
-        ? "Accept"
-        : "Cancel";
+      this.querySelector("button").innerHTML = getActionButtonText(
+        data.cancelled
+      );
+
       this.dataset.cancelled = data.cancelled;
     });
 }
@@ -28,7 +33,7 @@ function createBookingTemplate(booking) {
       <p>${booking.name}</p>
       <p>${booking.date}</p>
       <img src="${booking.image_url}" alt="Profile"/>
-      <button>${booking.cancelled ? "Accept" : "Cancel"}</button>
+      <button>${getActionButtonText(booking.cancelled)}</button>
     </div>
   `;
 }
